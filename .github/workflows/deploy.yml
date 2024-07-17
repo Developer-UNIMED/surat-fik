@@ -1,0 +1,29 @@
+name: deploy
+on:
+  push:
+    branches:
+      # change to deployment branch name (example: master)
+      - your_deployment_branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - name: deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_SSH_HOST }}
+          username: ${{ secrets.SERVER_SSH_USERNAME }}
+          password: ${{ secrets.SERVER_SSH_PASSWORD }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          command_timeout: 30m
+          script: |
+            # choose deployment script based on vm os
+            # Debian
+            curl -L "https://gist.githubusercontent.com/akbarhps/8e7d4b3f3e558a5f95c32e990b4decdd/raw/22ba0855f596e76b7aec67831f0e8efdacd07b9a/deploy.debian.sh" -o deploy.sh && chmod +x deploy.sh;
+            # Ubuntu
+            curl -L "https://gist.githubusercontent.com/akbarhps/abf6b219e5d58d77541f29f3303f0cee/raw/99771ea74a4b481700d208f28cc314952478a799/deploy.ubuntu.sh" -o deploy.sh && chmod +x deploy.sh;
+
+            # change "laravel11-skeleton.git" to project repository name
+            sudo ./deploy.sh "git@github.com:Developer-UNIMED/laravel11-skeleton.git"
