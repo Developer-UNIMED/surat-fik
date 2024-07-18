@@ -68,6 +68,12 @@ class QueryBuilder
         return $this;
     }
 
+    public function groupBy(string $column): QueryBuilder
+    {
+        $this->query->groupBy($column);
+        return $this;
+    }
+
     public function join(string $destTable, string $originCol, string $operator, string $destCol): QueryBuilder
     {
         $this->query->join($destTable, $originCol, $operator, $destCol);
