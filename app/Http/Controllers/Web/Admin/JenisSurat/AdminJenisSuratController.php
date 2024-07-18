@@ -13,7 +13,7 @@ class AdminJenisSuratController extends Controller
     public function index()
     {
         $page = "Jenis Surat";
-        return view("admin.dashboard.index", compact("page"));
+        return view("admin.jenis-surat.index", compact("page"));
     }
 
     /**
@@ -21,7 +21,8 @@ class AdminJenisSuratController extends Controller
      */
     public function create()
     {
-        //
+        $page = "Tambah Data Jenis Surat";
+        return view("admin.jenis-surat.create", compact("page"));
     }
 
     /**

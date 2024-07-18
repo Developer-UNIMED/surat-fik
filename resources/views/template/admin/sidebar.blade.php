@@ -22,8 +22,8 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('admin.jenis-surat.index') }}">
+            <li class="{{ ($url == "jenis-surat") ? "active-page" : "" }}">
+                <a href="{{ route('admin.jenis-surat.index') }}" class="{{ ($url == "jenis-surat") ? "active-page" : "" }}">
                     <iconify-icon icon="ion:mail" class="menu-icon"></iconify-icon>
                     <span>Jenis Surat</span>
                 </a>

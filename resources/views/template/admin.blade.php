@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/lib/slick.css') }} ">
     <!-- main css -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }} ">
+
 </head>
 <body>
 @include('template.admin.sidebar')
@@ -67,6 +68,9 @@
 
 <script src="{{ asset('assets/js/homeOneChart.js') }}"></script>
 
+
 </body>
 
 </html>
+
+@yield('js')
