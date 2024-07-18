@@ -17,8 +17,10 @@ class ChangeUserRoleController extends Controller
      */
     public function index()
     {
-        $usersWithRole = $this->userRoleService->getUsersWithRole();
+        $roles = $this->userRoleService->findAllAvailableRole(select: ['id', 'name']);
+        $usersWithRole = $this->userRoleService->findAllUserWithRole(select: ['name', 'user_id', 'role_id']);
         return view('welcome', [
+            'roles' => $roles,
             'users_with_role' => $usersWithRole,
         ]);
     }
@@ -29,7 +31,7 @@ class ChangeUserRoleController extends Controller
     public function store(ChangeUserRoleRequest $request)
     {
         $form = $request->validated();
-        $userRole = $this->userRoleService->changeRole(
+        $userRole = $this->userRoleService->updateRole(
             userId: $form['user_id'], roleId: $form['role_id']);
         return redirect()->back()->with([
             'code' => 201,

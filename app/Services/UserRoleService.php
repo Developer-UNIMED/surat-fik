@@ -15,12 +15,20 @@ class UserRoleService
     {
     }
 
-    public function getUsersWithRole()
+    public function findAllAvailableRole(array $select): array
     {
-        return $this->userRepository->getWithRole(select: ['name', 'user_id', 'role_id']);
+        return $this->roleRepository->findAll(
+            select: $select,
+            where: [['id', '!=', 'DEV']],
+            orderBy: ['id', 'asc']);
     }
 
-    public function changeRole(string $userId, string $roleId)
+    public function findAllUserWithRole(array $select)
+    {
+        return $this->userRepository->findAllWithRole(select: $select);
+    }
+
+    public function updateRole(string $userId, string $roleId)
     {
         $isUserExists = $this->userRepository->exists($userId);
         if (!$isUserExists) {

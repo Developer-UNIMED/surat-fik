@@ -33,7 +33,7 @@ class UserRepository extends Repository
             ->exists();
     }
 
-    public function getWithRole(array $select = [])
+    public function findAllWithRole(array $select = [])
     {
         return QueryBuilder::builder($this->model)
             ->select($select)
