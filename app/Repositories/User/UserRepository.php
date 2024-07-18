@@ -32,4 +32,16 @@ class UserRepository extends Repository
             ->build()
             ->exists();
     }
+
+    public function getWithRole(array $select = [])
+    {
+        return QueryBuilder::builder($this->model)
+            ->select($select)
+            ->where([['user_roles.role_id', '!=', 'DEV']])
+            ->join('user_roles', 'user_roles.user_id', '=', 'users.id')
+            ->orderBy(['users.id' => 'asc'])
+            ->groupBy('users.id')
+            ->build()
+            ->get();
+    }
 }

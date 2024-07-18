@@ -17,19 +17,22 @@ class UserRoleRepository extends Repository
     {
         return QueryBuilder::builder($this->model)
             ->build()
-            ->create([
-                'user_id' => $userId,
-                'role_id' => $roleId,
-            ]);
+            ->create(['user_id' => $userId, 'role_id' => $roleId]);
+    }
+
+    public function update(string $userId, string $roleId)
+    {
+        return QueryBuilder::builder($this->model)
+            ->where(['user_id' => $userId])
+            ->where([['role_id', '!=', 'DEV']])
+            ->build()
+            ->update(['role_id' => $roleId]);
     }
 
     public function delete(string $userId, string $roleId)
     {
         return QueryBuilder::builder($this->model)
-            ->where([
-                'user_id' => $userId,
-                'role_id' => $roleId,
-            ])
+            ->where(['user_id' => $userId, 'role_id' => $roleId])
             ->build()
             ->delete();
     }
