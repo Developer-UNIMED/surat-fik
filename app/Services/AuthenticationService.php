@@ -91,6 +91,7 @@ class AuthenticationService
             $user = $this->userRepository->findByEmail($keycloakUser->email);
             if (!$user) {
                 $user = $this->register([
+                    'id' => $keycloakUser->id,
                     'name' => $keycloakUser->fullName,
                     'email' => $keycloakUser->email,
                 ]);
