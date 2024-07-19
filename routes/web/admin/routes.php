@@ -17,5 +17,6 @@ Route::prefix("admin")->middleware($middlewares)->group(function () {
 
     Route::prefix("jenis-surat")->controller(AdminJenisSuratController::class)->group(function () {
         Route::get("/", 'index')->name('admin.jenis-surat.index');
+        Route::get("/create", 'create')->name('admin.jenis-surat.create');
     });
 });
