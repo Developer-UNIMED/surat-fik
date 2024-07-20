@@ -4,7 +4,7 @@ namespace Repositories;
 
 use App\Models\JenisSurat;
 use App\Models\User;
-use App\Repositories\JenisSuratRepository;
+use App\Repositories\Surat\JenisSuratRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

@@ -3,14 +3,14 @@
 namespace Database\Factories;
 
 use App\Models\JenisSurat;
-use App\Models\Role;
+use App\Models\SuratMasuk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends Factory<JenisSurat>
+ * @extends Factory<SuratMasuk>
  */
-class JenisSuratFactory extends Factory
+class SuratMasukFactory extends Factory
 {
 
     /**
@@ -22,11 +22,8 @@ class JenisSuratFactory extends Factory
     {
         return [
             'id' => strtolower(Str::ulid()),
-            'validator_role_id' => Role::factory()->create()->id,
-            'nama' => fake()->unique()->countryCode(),
-            'icon_path' => fake()->imageUrl(),
+            'jenis_surat_id' => JenisSurat::factory()->create()->id,
             'file_path' => fake()->filePath(),
-            'deskripsi' => fake()->text(),
         ];
     }
 }

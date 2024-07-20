@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\JenisSuratRepository;
+use App\Repositories\Surat\JenisSuratRepository;
 
 class JenisSuratService
 {

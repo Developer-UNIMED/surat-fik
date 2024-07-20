@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Surat;
 
 use App\Models\JenisSurat;
+use App\Repositories\Repository;
 use App\Traits\Repositories\CrudRepository;
 use App\Traits\Repositories\PagingRepository;
 

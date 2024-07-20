@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class JenisSurat extends Model
+class SuratMasuk extends Model
 {
     use HasFactory, HasFingerprint, Notifiable, SoftDeletes;
 
-    protected $table = 'jenis_surat';
+    protected $table = 'surat_masuk';
     protected $primaryKey = 'id';
     protected $keyType = 'uuid';
     protected $perPage = 15;
@@ -25,11 +25,8 @@ class JenisSurat extends Model
 
     protected $fillable = [
         'id',
-        'validator_role_id',
-        'nama',
-        'icon_path',
+        'jenis_surat_id',
         'file_path',
-        'deskripsi',
 
         'created_by',
         'updated_by',
