@@ -33,14 +33,20 @@ class UserRepository extends Repository
             ->exists();
     }
 
+    public function changeRole(string $userId, string $roleId)
+    {
+        return QueryBuilder::builder($this->model)
+            ->where(['id' => $userId])
+            ->build()
+            ->update(['role_id' => $roleId]);
+    }
+
     public function findAllWithRole(array $select = [])
     {
         return QueryBuilder::builder($this->model)
             ->select($select)
-            ->where([['user_roles.role_id', '!=', 'DEV']])
-            ->join('user_roles', 'user_roles.user_id', '=', 'users.id')
+            ->where([['users.role_id', '!=', 'DEV']])
             ->orderBy(['users.id' => 'asc'])
-            ->groupBy('users.id')
             ->build()
             ->get();
     }

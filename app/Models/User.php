@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id'
     ];
 
     protected $hidden = [
@@ -43,22 +44,14 @@ class User extends Authenticatable
         ];
     }
 
-
-    public function roles(): HasManyThrough
+    public function role(): BelongsTo
     {
-        return $this->hasManyThrough(Role::class, UserRole::class,
-            'user_id', 'id', 'id', 'role_id');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function hasRole(string $role): bool
     {
-        foreach ($this->roles as $userRole) {
-            if (strtoupper($userRole->id) === strtoupper($role)) {
-                return true;
-            }
-        }
-
-        return false;
+        return strtoupper($this->role_id) === strtoupper($role);
     }
 
     public function isRegisteredViaKeycloak(): bool

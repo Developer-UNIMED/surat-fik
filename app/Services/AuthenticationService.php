@@ -4,9 +4,10 @@ namespace App\Services;
 
 use App\Models\Keycloak\KeycloakUser;
 use App\Models\User;
+use App\Repositories\Remote\AkademikRemoteRepository;
+use App\Repositories\User\AkademikUserRepository;
 use App\Repositories\User\RoleRepository;
 use App\Repositories\User\UserRepository;
-use App\Repositories\User\UserRoleRepository;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,9 +18,10 @@ use Illuminate\Validation\ValidationException;
 
 class AuthenticationService
 {
-    public function __construct(private readonly UserRepository     $userRepository,
-                                private readonly UserRoleRepository $userRoleRepository,
-                                private readonly RoleRepository     $roleRepository)
+    public function __construct(private readonly UserRepository           $userRepository,
+                                private readonly AkademikRemoteRepository $akademikRemoteRepository,
+                                private readonly AkademikUserRepository   $akademikUserRepository,
+                                private readonly RoleRepository           $roleRepository)
     {
     }
 
@@ -51,9 +53,8 @@ class AuthenticationService
                 'name' => $data['name'],
                 'email' => $email,
                 'password' => $password,
+                'role_id' => $role,
             ]);
-
-            $this->userRoleRepository->create($user->id, $role);
 
             Log::info('REGISTER', $user->toArray());
             return $user;
@@ -89,18 +90,27 @@ class AuthenticationService
     {
         return DB::transaction(function () use ($keycloakUser) {
             $user = $this->userRepository->findByEmail($keycloakUser->email);
-            if (!$user) {
-                $user = $this->register([
-                    'id' => $keycloakUser->id,
-                    'name' => $keycloakUser->fullName,
-                    'email' => $keycloakUser->email,
-                ]);
-
-                // uncomment line below if you want to save keycloak user to database
-                // $this->userKeycloakRepository->createFromEntity($keycloakUser);
+            if ($user) {
+                return $user;
             }
 
-            Log::info('SIGN_IN_KEYCLOAK', $keycloakUser->toArray());
+            $user = $this->register([
+                'id' => $keycloakUser->id,
+                'name' => $keycloakUser->fullName,
+                'email' => $keycloakUser->email,
+            ]);
+
+            // Note: remoteAkad will return null if user is already graduated
+            $remoteAkadUser = $this->akademikRemoteRepository->findUserByNIM($keycloakUser->id);
+            if ($remoteAkadUser) {
+                $this->akademikUserRepository->create($remoteAkadUser);
+            }
+
+            Log::info('SIGN_IN_KEYCLOAK', [
+                'keycloak' => $keycloakUser->toArray(),
+                'user' => $user->toArray(),
+                'akademik' => $remoteAkadUser,
+            ]);
             return $user;
         });
     }

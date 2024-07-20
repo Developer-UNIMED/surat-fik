@@ -4,14 +4,12 @@ namespace App\Services;
 
 use App\Repositories\User\RoleRepository;
 use App\Repositories\User\UserRepository;
-use App\Repositories\User\UserRoleRepository;
 use Illuminate\Validation\ValidationException;
 
 class UserRoleService
 {
-    public function __construct(private readonly RoleRepository     $roleRepository,
-                                private readonly UserRepository     $userRepository,
-                                private readonly UserRoleRepository $userRoleRepository)
+    public function __construct(private readonly RoleRepository $roleRepository,
+                                private readonly UserRepository $userRepository)
     {
     }
 
@@ -44,6 +42,6 @@ class UserRoleService
             ]);
         }
 
-        return $this->userRoleRepository->update($userId, $roleId);
+        return $this->userRepository->changeRole($userId, $roleId);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use App\Models\User;
-use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -48,7 +48,7 @@ class UserFactory extends Factory
     public function withRole(): static
     {
         return $this->state(fn(array $attributes) => [
-            'role_id' => UserRole::factory()->create()->id,
+            'role_id' => Role::factory()->create()->id,
         ]);
     }
 }
