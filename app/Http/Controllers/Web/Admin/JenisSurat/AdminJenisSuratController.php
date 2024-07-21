@@ -3,10 +3,18 @@
 namespace App\Http\Controllers\Web\Admin\JenisSurat;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\JenisSuratStoreRequest;
+use App\Services\JenisSuratService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AdminJenisSuratController extends Controller
 {
+    public function __construct(private readonly JenisSuratService $jenisSuratService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -28,9 +36,28 @@ class AdminJenisSuratController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(JenisSuratStoreRequest $request)
     {
-        //
+        $form = $request->validated();
+        $uploadPath = 'public/jenis_surat';
+        $id = Str::ulid();
+
+        $iconPath = Storage::putFileAs(
+            path: $uploadPath, file: $form['icon'],
+            name: "$id-icon." . $form['icon']->extension());
+
+        $filePath = Storage::putFileAs(
+            path: $uploadPath, file: $form['file'],
+            name: "$id-file." . $form['file']->extension());
+
+        $jenisSurat = $this->jenisSuratService->create(array_merge([
+            'id' => $id,
+            'file_path' => $filePath,
+            'icon_path' => $iconPath,
+        ], $form));
+
+        return response()->json([$jenisSurat->toArray(),
+            Storage::url($jenisSurat->icon_path)]);
     }
 
     /**

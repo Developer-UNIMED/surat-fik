@@ -25,7 +25,7 @@ class JenisSurat extends Model
 
     protected $fillable = [
         'id',
-        'validator_role_id',
+//        'validator_role_id',
         'nama',
         'icon_path',
         'file_path',

@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\Web\Admin\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Web\Admin\JenisSurat\AdminJenisSuratController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 $MIDDLEWARE_ROLE = 'ADMIN';
 
@@ -18,5 +18,10 @@ Route::prefix("admin")->middleware($middlewares)->group(function () {
     Route::prefix("jenis-surat")->controller(AdminJenisSuratController::class)->group(function () {
         Route::get("/", 'index')->name('admin.jenis-surat.index');
         Route::get("/create", 'create')->name('admin.jenis-surat.create');
+        Route::post('/', 'store')->name('admin.jenis-surat.store');
     });
+});
+
+Route::get('admin/download', function () {
+    return Storage::download('jenis_surat/01J3A3720T4W6VB4BK2WATGBYT-file.pdf', 'FILE_FORMAT.pdf');
 });

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         Role::insert([
             ['id' => 'USER', 'name' => 'USER'],
             ['id' => 'ADMIN', 'name' => 'ADMIN'],
+            ['id' => 'VALIDATOR', 'name' => 'VALIDATOR'],
             ['id' => 'DEV', 'name' => 'DEVELOPER'],
         ]);
     }
