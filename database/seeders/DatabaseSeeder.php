@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         Role::insert([
             ['id' => 'USER', 'name' => 'USER'],
-            ['id' => 'ADMIN', 'name' => 'ADMIN'],
+            ['id' => 'ADMIN_PENJASKES', 'name' => 'PEND. JASMANI, KESEHATAN DAN REKREASI'],
             ['id' => 'DEKAN', 'name' => 'Dekan'],
             ['id' => 'WD1', 'name' => 'Wakil Dekan 1'],
             ['id' => 'WD2', 'name' => 'Wakil Dekan 2'],

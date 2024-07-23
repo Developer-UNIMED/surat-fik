@@ -12,7 +12,6 @@ return new class extends Migration {
     {
         Schema::create('jenis_surat', function (Blueprint $table) {
             $table->string('id', 36)->primary();
-//            $table->foreignUuid('validator_role_id')->constrained('roles');
             $table->string('nama');
             $table->string('icon_path');
             $table->string('file_path');
@@ -32,7 +31,7 @@ return new class extends Migration {
             $table->foreignUuid('jenis_surat_id')->constrained('jenis_surat');
             $table->string('file_path');
             $table->foreignUuid('penerima_role_id')->constrained('roles');
-            $table->enum('status', ['PENDING', 'APPROVED', 'REJECTED', 'ARCHIVED'])->default('PENDING');
+            $table->enum('status', ['PENDING', 'REJECTED', 'ARCHIVED'])->default('PENDING');
 
             $table->foreignUuid('created_by')->constrained('users');
             $table->foreignUuid('updated_by')->constrained('users');

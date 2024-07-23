@@ -42,18 +42,25 @@ class ValidasiSuratServiceTest extends TestCase
 
     public function testFindAllSuratMasukByRolePenerima()
     {
-        Role::factory()->create(['id' => 'USER']);
-        $role = Role::factory()->create(['id' => 'WD1']);
+        $user = User::factory()->create(['role_id' => Role::factory()->create(['id' => 'USER'])->id]);
+        AkademikUser::factory()->create([
+            'user_id' => $user->id,
+            'jurusan' => 'Penjaskes'
+        ]);
 
-        $user = User::factory()->create(['role_id' => 'USER']);
-        AkademikUser::factory()->create(['user_id' => $user->id]);
+        $role = Role::factory()->create([
+            'id' => 'ADMIN_Penjaskes',
+            'name' => 'Penjaskes',
+        ]);
+
         SuratMasuk::factory()->count(10)->create([
+            'status' => 'PENDING',
             'penerima_role_id' => $role->id,
             'created_by' => $user->id,
             'updated_by' => $user->id,
         ]);
 
-        $result = $this->service->findAllSuratMasukByRolePenerima($role->id);
+        $result = $this->service->findAllSuratMasukByRolePenerima($role);
         self::assertNotEmpty($result);
         self::assertCount(10, $result);
     }

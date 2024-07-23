@@ -3,6 +3,7 @@
 namespace App\Repositories\Surat;
 
 use App\Helper\QueryBuilder;
+use App\Models\Role;
 use App\Models\SuratMasuk;
 use App\Repositories\Repository;
 use App\Traits\Repositories\CrudRepository;
@@ -17,8 +18,16 @@ class SuratMasukRepository extends Repository
         parent::__construct(new SuratMasuk());
     }
 
-    public function findAllSuratMasukByRolePenerima(string $roleId)
+    public function findAllSuratMasukByRolePenerima(Role $role)
     {
+        $whereClause = [
+            'surat_masuk.status' => 'PENDING',
+            'surat_masuk.penerima_role_id' => $role->id,
+        ];
+        if (str_starts_with($role->id, 'ADMIN')) {
+            $whereClause['akademik_users.jurusan'] = $role->name;
+        }
+
         return QueryBuilder::builder($this->model)
             ->select([
                 'surat_masuk.id',
@@ -30,7 +39,7 @@ class SuratMasukRepository extends Repository
                 'akademik_users.jurusan as author_jurusan',
             ])
             ->join('akademik_users', 'akademik_users.user_id', '=', 'surat_masuk.created_by')
-            ->where(['surat_masuk.penerima_role_id' => $roleId])
+            ->where($whereClause)
             ->orderBy(['surat_masuk.created_at' => 'ASC'])
             ->build()
             ->get();

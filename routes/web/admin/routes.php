@@ -4,7 +4,7 @@ use App\Http\Controllers\Web\Admin\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Web\Admin\JenisSurat\AdminJenisSuratController;
 use Illuminate\Support\Facades\Route;
 
-$MIDDLEWARE_ROLE = 'ADMIN';
+$MIDDLEWARE_ROLE = 'ADMIN_PENJASKES,ADMIN_SAMLEKOM';
 
 $middlewares = ['auth', "role:$MIDDLEWARE_ROLE"];
 if (session('auth_provider') === 'keycloak') {
@@ -21,7 +21,3 @@ Route::prefix("admin")->middleware($middlewares)->group(function () {
         Route::post('/delete/{id}', 'delete')->name('admin.jenis-surat.delete');
     });
 });
-
-//Route::get('admin/download', function () {
-//    return Storage::download('jenis_surat/01J3A3720T4W6VB4BK2WATGBYT-file.pdf', 'FILE_FORMAT.pdf');
-//});

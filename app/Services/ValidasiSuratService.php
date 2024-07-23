@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Role;
 use App\Repositories\Surat\SuratMasukRepository;
 use App\Repositories\User\RoleRepository;
 use Illuminate\Validation\ValidationException;
@@ -18,11 +19,11 @@ class ValidasiSuratService
         return $this->roleRepository->findAllPenerimaSurat(['id', 'name'])->toArray();
     }
 
-    public function findAllSuratMasukByRolePenerima(string $roleId): array
+    public function findAllSuratMasukByRolePenerima(Role $role): array
     {
-        $result = [];
-        $listSuratMasuk = $this->suratMasukRepository->findAllSuratMasukByRolePenerima($roleId);
+        $listSuratMasuk = $this->suratMasukRepository->findAllSuratMasukByRolePenerima($role);
 
+        $result = [];
         foreach ($listSuratMasuk as $suratMasuk) {
             $result[] = [
                 $suratMasuk['id'],
