@@ -16,8 +16,14 @@
     <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
             <li class="sidebar-menu-group-title">Menu</li>
+            <li class="{{ ($url == "template-surat") ? "active-page" : "" }}">
+                <a href="{{ route('user.index') }}" class="{{ ($url == "template-surat") ? "active-page" : "" }}">
+                    <iconify-icon icon="ion:home" class="menu-icon"></iconify-icon>
+                    <span>Template Surat</span>
+                </a>
+            </li>
             <li class="{{ ($url == "surat-baru") ? "active-page" : "" }}">
-                <a href="{{ route('user.index') }}" class="{{ ($url == "surat-baru") ? "active-page" : "" }}">
+                <a href="{{ route('user.surat-baru.index') }}" class="{{ ($url == "surat-baru") ? "active-page" : "" }}">
                     <iconify-icon icon="ion:home" class="menu-icon"></iconify-icon>
                     <span>Surat Baru</span>
                 </a>

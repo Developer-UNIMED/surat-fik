@@ -27,6 +27,7 @@ class SuratMasuk extends Model
         'id',
         'jenis_surat_id',
         'file_path',
+        'penerima_role_id',
 
         'created_by',
         'updated_by',

@@ -68,6 +68,15 @@ class QueryBuilder
         return $this;
     }
 
+    public function whereNotIn(string $column, array $where): QueryBuilder
+    {
+        if ($where) {
+            $this->query->whereNotIn($column, $where);
+        }
+
+        return $this;
+    }
+
     public function groupBy(string $column): QueryBuilder
     {
         $this->query->groupBy($column);

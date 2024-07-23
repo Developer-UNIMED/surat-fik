@@ -31,6 +31,8 @@ return new class extends Migration {
             $table->string('id', 36)->primary();
             $table->foreignUuid('jenis_surat_id')->constrained('jenis_surat');
             $table->string('file_path');
+            $table->foreignUuid('penerima_role_id')->constrained('roles');
+            $table->enum('status', ['PENDING', 'APPROVED', 'REJECTED', 'ARCHIVED'])->default('PENDING');
 
             $table->foreignUuid('created_by')->constrained('users');
             $table->foreignUuid('updated_by')->constrained('users');
