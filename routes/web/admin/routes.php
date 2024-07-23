@@ -3,7 +3,6 @@
 use App\Http\Controllers\Web\Admin\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Web\Admin\JenisSurat\AdminJenisSuratController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 $MIDDLEWARE_ROLE = 'ADMIN';
 
@@ -23,6 +22,6 @@ Route::prefix("admin")->middleware($middlewares)->group(function () {
     });
 });
 
-Route::get('admin/download', function () {
-    return Storage::download('jenis_surat/01J3A3720T4W6VB4BK2WATGBYT-file.pdf', 'FILE_FORMAT.pdf');
-});
+//Route::get('admin/download', function () {
+//    return Storage::download('jenis_surat/01J3A3720T4W6VB4BK2WATGBYT-file.pdf', 'FILE_FORMAT.pdf');
+//});
