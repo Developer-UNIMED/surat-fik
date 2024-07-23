@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\JenisSurat;
-use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -22,7 +21,6 @@ class JenisSuratFactory extends Factory
     {
         return [
             'id' => strtolower(Str::ulid()),
-            'validator_role_id' => Role::factory()->create()->id,
             'nama' => fake()->unique()->countryCode(),
             'icon_path' => fake()->imageUrl(),
             'file_path' => fake()->filePath(),

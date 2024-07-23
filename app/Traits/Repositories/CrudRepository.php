@@ -137,9 +137,9 @@ trait CrudRepository
      * @param string $primaryKey
      * @param array $entity
      * @param bool $withTrashed
-     * @return Model|null
+     * @return int
      */
-    public function update(string $primaryKey, array $entity, bool $withTrashed = false): Model|null
+    public function update(string $primaryKey, array $entity, bool $withTrashed = false): int
     {
         return QueryBuilder::builder($this->model)
             ->withTrashed($withTrashed)

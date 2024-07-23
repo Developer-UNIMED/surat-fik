@@ -13,69 +13,62 @@ class JenisSuratService
     {
     }
 
-    public function findAll()
+    public function findAll(): array
     {
         $result = [];
-        $jenisSuratList = $this->jenisSuratRepository->findAll(
-            select: ['id', 'nama', 'icon_path', 'deskripsi', 'file_path']);
+        $listJenisSurat = $this->jenisSuratRepository->findAll(
+            select: ['id', 'nama', 'icon_path', 'deskripsi']);
 
-        foreach ($jenisSuratList as $jenisSurat) {
+        foreach ($listJenisSurat as $jenisSurat) {
             $result[] = [
                 'id' => $jenisSurat->id,
                 'nama' => $jenisSurat->nama,
-                'file_path' => $jenisSurat->file_path,
-                'icon_path' => $jenisSurat->icon_path,
+                'icon_path' => Storage::url($jenisSurat->icon_path),
                 'deskripsi' => $jenisSurat->deskripsi,
             ];
         }
         return $result;
     }
 
-    public function findById(string $id)
+    public function findById(string $jenisSuratId): array
     {
-        $jenisSurat = $this->jenisSuratRepository->findById($id);
+        $jenisSurat = $this->jenisSuratRepository->findById($jenisSuratId);
         if (!$jenisSurat) {
             throw ValidationException::withMessages([
-                'id' => "Jenis Surat dengan id $id tidak ditemukan"
+                'id' => "Jenis Surat dengan id $jenisSuratId tidak ditemukan"
             ]);
         }
 
         return [
             'id' => $jenisSurat->id,
             'nama' => $jenisSurat->nama,
-            'icon_path' => $jenisSurat->icon_path,
-            'file_path' => $jenisSurat->file_path,
+            'icon_path' => Storage::url($jenisSurat->icon_path),
+            'file_path' => Storage::url($jenisSurat->file_path),
             'deskripsi' => $jenisSurat->deskripsi,
         ];
     }
 
-    public function create(array $data)
+    public function create(array $data): array
     {
         return $this->jenisSuratRepository->create([
-            'id' => $data['id'],
             'nama' => $data['nama'],
             'icon_path' => $data['icon_path'],
             'file_path' => $data['file_path'],
             'deskripsi' => $data['deskripsi'],
-        ]);
+        ])->toArray();
     }
 
-    public function update(string $id, array $data)
+    public function update(string $id, array $data): int
     {
         return DB::transaction(function () use ($id, $data) {
-            $jenisSurat = $this->jenisSuratRepository->findById($id);
-            if (!$jenisSurat) {
+            $isJenisSuratExists = $this->jenisSuratRepository->exists($id);
+            if (!$isJenisSuratExists) {
                 throw ValidationException::withMessages([
                     'id' => "Jenis Surat dengan id $id tidak ditemukan"
                 ]);
             }
 
-            return $this->jenisSuratRepository->update($id, [
-                'nama' => $data['nama'],
-                'icon_path' => $data['icon_path'],
-                'file_path' => $data['file_path'],
-                'deskripsi' => $data['deskripsi'],
-            ]);
+            return $this->jenisSuratRepository->update($id, $data);
         });
     }
 
