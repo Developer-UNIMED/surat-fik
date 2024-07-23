@@ -13,12 +13,12 @@ class ValidasiSuratService
     {
     }
 
-    public function findAllPenerimaSurat()
+    public function findAllPenerimaSurat(): array
     {
-        $this->roleRepository->findAllPenerimaSurat()->toArray();
+        return $this->roleRepository->findAllPenerimaSurat(['id', 'name'])->toArray();
     }
 
-    public function findAllSuratMasukByRolePenerima(string $roleId)
+    public function findAllSuratMasukByRolePenerima(string $roleId): array
     {
         $result = [];
         $listSuratMasuk = $this->suratMasukRepository->findAllSuratMasukByRolePenerima($roleId);
@@ -40,19 +40,7 @@ class ValidasiSuratService
         return $result;
     }
 
-    public function rejectSurat(string $suratMasukId)
-    {
-        $isSuratMasukExists = $this->suratMasukRepository->exists($suratMasukId);
-        if (!$isSuratMasukExists) {
-            throw ValidationException::withMessages([
-                'surat_masuk_id' => "Surat dengan id $suratMasukId tidak ditemukan",
-            ]);
-        }
-
-        return $this->suratMasukRepository->rejectSurat($suratMasukId);
-    }
-
-    public function forwardSurat(string $suratMasukId, string $roleId)
+    public function forwardSurat(string $suratMasukId, string $roleId): int
     {
         $isSuratMasukExists = $this->suratMasukRepository->exists($suratMasukId);
         if (!$isSuratMasukExists) {
@@ -75,6 +63,18 @@ class ValidasiSuratService
             ]);
         }
 
-        $this->suratMasukRepository->forwardSurat($suratMasukId, $roleId);
+        return $this->suratMasukRepository->forwardSurat($suratMasukId, $roleId);
+    }
+
+    public function rejectSurat(string $suratMasukId)
+    {
+        $isSuratMasukExists = $this->suratMasukRepository->exists($suratMasukId);
+        if (!$isSuratMasukExists) {
+            throw ValidationException::withMessages([
+                'surat_masuk_id' => "Surat dengan id $suratMasukId tidak ditemukan",
+            ]);
+        }
+
+        return $this->suratMasukRepository->rejectSurat($suratMasukId);
     }
 }

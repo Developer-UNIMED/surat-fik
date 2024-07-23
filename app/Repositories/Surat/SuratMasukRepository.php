@@ -29,12 +29,9 @@ class SuratMasukRepository extends Repository
                 'akademik_users.program_studi as author_prodi',
                 'akademik_users.jurusan as author_jurusan',
             ])
-            ->join('akademik_users', 'akademik_users.id', '=', 'surat_masuk.created_by')
-            ->where([
-                ['surat_masuk.deleted_at', '=', null],
-                ['surat_masuk.penerima_role_id', '=', $roleId]
-            ])
-            ->orderBy(['created_at' => 'ASC'])
+            ->join('akademik_users', 'akademik_users.user_id', '=', 'surat_masuk.created_by')
+            ->where(['surat_masuk.penerima_role_id' => $roleId])
+            ->orderBy(['surat_masuk.created_at' => 'ASC'])
             ->build()
             ->get();
     }

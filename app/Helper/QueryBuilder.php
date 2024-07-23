@@ -4,6 +4,7 @@ namespace App\Helper;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class QueryBuilder
 {
@@ -140,6 +141,7 @@ class QueryBuilder
 
     public function build()
     {
+        Log::debug($this->query->toSql());
         return $this->query;
     }
 }

@@ -16,10 +16,10 @@ class RoleRepository extends Repository
         parent::__construct(new Role());
     }
 
-    public function findAllPenerimaSurat()
+    public function findAllPenerimaSurat(array $select = ['*'])
     {
         return QueryBuilder::builder($this->model)
-            ->select(['id', 'name'])
+            ->select($select)
             ->whereNotIn('id', ['USER', 'ADMIN', 'DEV'])
             ->orderBy(['id' => 'ASC'])
             ->build()

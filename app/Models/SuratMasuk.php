@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Model\HasFingerprint;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 
 class SuratMasuk extends Model
 {
-    use HasFactory, HasFingerprint, Notifiable, SoftDeletes;
+    use HasFactory, HasUlids, HasFingerprint, Notifiable, SoftDeletes;
 
     protected $table = 'surat_masuk';
     protected $primaryKey = 'id';
