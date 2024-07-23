@@ -160,8 +160,9 @@ trait CrudRepository
     public function delete(string $primaryKey): int
     {
         return QueryBuilder::builder($this->model)
+            ->where([$this->primaryKey => $primaryKey])
             ->build()
-            ->destroy($primaryKey);
+            ->delete();
     }
 
     /**

@@ -17,19 +17,39 @@ class SuratMasukRepository extends Repository
         parent::__construct(new SuratMasuk());
     }
 
-    public function getSuratMasukByValidatorRole(array $select, string $validatorRoleId)
+    public function findAllSuratMasukByRolePenerima(string $roleId)
     {
         return QueryBuilder::builder($this->model)
-            ->select($select)
-            ->join('jenis_surat', 'jenis_surat.id', '=', 'surat_masuk.jenis_surat_id')
-            ->leftJoin('disposisi_surat', 'disposisi_surat.surat_masuk_id', '=', 'surat_masuk.id')
+            ->select([
+                'surat_masuk.id',
+                'surat_masuk.jenis_surat_id',
+                'surat_masuk.file_path',
+                'akademik_users.nama as author_name',
+                'akademik_users.angkatan as author_angkatan',
+                'akademik_users.program_studi as author_prodi',
+                'akademik_users.jurusan as author_jurusan',
+            ])
+            ->join('akademik_users', 'akademik_users.id', '=', 'surat_masuk.created_by')
             ->where([
                 ['surat_masuk.deleted_at', '=', null],
-                ['jenis_surat.deleted_at', '=', null],
-                ['jenis_surat.validator_role_id', '=', $validatorRoleId],
-                ['disposisi_surat.id', '=', null],
+                ['surat_masuk.penerima_role_id', '=', $roleId]
             ])
+            ->orderBy(['created_at' => 'ASC'])
             ->build()
             ->get();
+    }
+
+    public function forwardSurat(string $suratMasukId, string $roleId)
+    {
+        return QueryBuilder::builder($this->model)
+            ->where(['id' => $suratMasukId])
+            ->build()
+            ->update(['penerima_role_id' => $roleId]);
+    }
+
+    public function rejectSurat(string $suratMasukId)
+    {
+        // TODO: not yet implemented
+        return true;
     }
 }

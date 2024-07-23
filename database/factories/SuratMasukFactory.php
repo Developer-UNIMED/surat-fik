@@ -24,6 +24,7 @@ class SuratMasukFactory extends Factory
             'id' => strtolower(Str::ulid()),
             'jenis_surat_id' => JenisSurat::factory()->create()->id,
             'file_path' => fake()->filePath(),
+            'penerima_role_id' => fake()->randomElement(['USER', 'ADMIN', 'DEKAN', 'WD1', 'WD2', 'WD3']),
         ];
     }
 }
