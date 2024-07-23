@@ -54,6 +54,11 @@ class User extends Authenticatable
         return strtoupper($this->role_id) === strtoupper($role);
     }
 
+    public function hasRoleIn(array $roles): bool
+    {
+        return in_array(strtoupper($this->role_id), array_map('strtoupper', $roles));
+    }
+
     public function isRegisteredViaKeycloak(): bool
     {
         return $this->password == null;
