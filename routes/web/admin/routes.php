@@ -19,6 +19,7 @@ Route::prefix("admin")->middleware($middlewares)->group(function () {
         Route::get("/", 'index')->name('admin.jenis-surat.index');
         Route::get("/create", 'create')->name('admin.jenis-surat.create');
         Route::post('/', 'store')->name('admin.jenis-surat.store');
+        Route::post('/delete/{id}', 'delete')->name('admin.jenis-surat.delete');
     });
 });
 

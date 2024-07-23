@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class AdminJenisSuratController extends Controller
 {
-    public function __construct(private readonly JenisSuratService $jenisSuratService)
+    public function __construct(private readonly JenisSuratService $service)
     {
     }
 
@@ -21,7 +21,8 @@ class AdminJenisSuratController extends Controller
     public function index()
     {
         $page = "Jenis Surat";
-        return view("admin.jenis-surat.index", compact("page"));
+        $data = $this->service->findAll();
+        return view("admin.jenis-surat.index", compact("page", "data"));
     }
 
     /**
@@ -50,14 +51,17 @@ class AdminJenisSuratController extends Controller
             path: $uploadPath, file: $form['file'],
             name: "$id-file." . $form['file']->extension());
 
-        $jenisSurat = $this->jenisSuratService->create(array_merge([
+        $jenisSurat = $this->service->create(array_merge([
             'id' => $id,
             'file_path' => $filePath,
             'icon_path' => $iconPath,
         ], $form));
 
-        return response()->json([$jenisSurat->toArray(),
-            Storage::url($jenisSurat->icon_path)]);
+        return redirect()->route("admin.jenis-surat.index")->with([
+            "code" => 201,
+            "status" => "OK",
+            "message" => "Data berhasil ditambahkan.",
+        ]);
     }
 
     /**
@@ -87,8 +91,22 @@ class AdminJenisSuratController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(string $id)
     {
-        //
+        $id = $this->service->delete($id);
+        if (!$id) {
+            $error = "Gagal Menghapus Data, Data Tidak Ditemukan";
+            return redirect()->back()->with([
+                "code" => 404,
+                "status" => "NOT_FOUND",
+                "message" => $error
+            ]);
+        }
+
+        return redirect()->route("admin.jenis-surat.index")->with([
+            "code" => 200,
+            "status" => "OK",
+            "message" => "Berhasil menghapus data",
+        ]);
     }
 }

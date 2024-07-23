@@ -8,26 +8,49 @@
         <div class="row gy-4 mt-1">
             <div class="col-xxl-12 col-xl-12">
                 <div class="card basic-data-table">
-
                     <div class="card-body">
-                        <div class="row gy-3">
-                            <div class="col-sm-6">
-                                <label class="form-label">Nama Jenis Surat</label>
-                                <div class="position-relative">
-                                    <input type="text" class="form-control" placeholder="Nama Jenis Surat" required="">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>- {{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form action="{{ route('admin.jenis-surat.store') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row gy-3">
+                                <div class="col-sm-6">
+                                    <label class="form-label">Nama Jenis Surat</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" placeholder="Nama Jenis Surat" name="nama" required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label">Format Surat</label>
+                                    <div class="position-relative">
+                                        <input type="file" class="form-control" name="file" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label">Icon Surat</label>
+                                    <div class="position-relative">
+                                        <input type="file" class="form-control" name="icon" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label">Icon Surat</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" name="deskripsi" placeholder="Deskripsi Surat (Opsional)">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <a href="{{ route('admin.jenis-surat.index') }}"><button type="button" class="btn btn-light">Kembali</button></a>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <label class="form-label">Format Surat</label>
-                                <div class="position-relative">
-                                    <input type="file" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <a href="{{ route('admin.jenis-surat.index') }}"><button type="button" class="btn btn-light">Kembali</button></a>
-                                <button type="button" class="btn btn-primary">Simpan</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -37,6 +60,5 @@
 
 @section("js")
     <script>
-        let table = new DataTable('#dataTable');
     </script>
 @endsection
