@@ -56,7 +56,12 @@ class User extends Authenticatable
 
     public function hasRoleIn(array $roles): bool
     {
-        return in_array(strtoupper($this->role_id), array_map('strtoupper', $roles));
+        foreach ($roles as $role) {
+            if ($this->hasRole(trim($role))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function isRegisteredViaKeycloak(): bool

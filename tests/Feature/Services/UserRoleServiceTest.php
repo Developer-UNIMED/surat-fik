@@ -31,15 +31,14 @@ class UserRoleServiceTest extends TestCase
             ['id' => 'DEV', 'name' => 'DEVELOPER'],
         ];
         Role::insert($roles);
-        User::factory()->count(10)->create([
-            'role_id' => $roles[array_rand($roles)]['id'],
-        ])->toArray();
+        User::factory()->count(10)->create(['role_id' => $roles[array_rand($roles)]['id']]);
     }
 
     public function testGetWithRole(): void
     {
-        $result = $this->userRepository->findAllWithRole(
-            select: ['id', 'name', 'role_id']);
-        dd($result->toArray());
+        $result = $this->userRepository->findAllWithRole(select: ['id', 'name', 'role_id']);
+        self::assertNotEmpty($result);
     }
+
+
 }

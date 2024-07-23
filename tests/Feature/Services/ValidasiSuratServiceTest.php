@@ -29,11 +29,11 @@ class ValidasiSuratServiceTest extends TestCase
         $this->actingAs($admin)->startSession();
     }
 
-    public function testFindAllPenerimaSurat()
+    public function testFindAllPenerimaSuratRole()
     {
         Role::factory()->count(10)->create();
 
-        $result = $this->service->findAllPenerimaSurat();
+        $result = $this->service->findAllPenerimaSuratRole();
         self::assertNotEmpty($result);
         self::assertCount(10, $result);
         self::assertArrayHasKey('id', $result[0]);

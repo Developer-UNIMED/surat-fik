@@ -13,7 +13,7 @@ class ValidasiSuratService
     {
     }
 
-    public function findAllPenerimaSurat(): array
+    public function findAllPenerimaSuratRole(): array
     {
         return $this->roleRepository->findAllPenerimaSurat(['id', 'name'])->toArray();
     }
