@@ -68,15 +68,16 @@ class JenisSuratServiceTest extends TestCase
     public function testUpdate()
     {
         $jenisSurat = JenisSurat::factory()->create();
+        $updateData = ['nama' => 'Surat baru awik awok'];
 
-        $result = $this->service->update($jenisSurat->id, ['nama' => 'Surat baru awikawiokawok']);
+        $result = $this->service->update($jenisSurat->id, $updateData);
         self::assertNotNull($result);
         self::assertEquals(1, $result);
 
         $updatedJenisSurat = $this->service->findById($jenisSurat->id);
         self::assertNotNull($updatedJenisSurat);
         self::assertNotEquals($jenisSurat->nama, $updatedJenisSurat['nama']);
-        self::assertEquals('Surat Keterangan', $updatedJenisSurat['nama']);
+        self::assertEquals($updateData['nama'], $updatedJenisSurat['nama']);
     }
 
     public function testDelete()
