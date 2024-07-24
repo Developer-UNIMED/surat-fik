@@ -17,13 +17,14 @@ class JenisSuratService
     {
         $result = [];
         $listJenisSurat = $this->jenisSuratRepository->findAll(
-            select: ['id', 'nama', 'icon_path', 'deskripsi']);
+            select: ['id', 'nama', 'icon_path', 'deskripsi', 'file_path']);
 
         foreach ($listJenisSurat as $jenisSurat) {
             $result[] = [
                 'id' => $jenisSurat->id,
                 'nama' => $jenisSurat->nama,
-                'icon_path' => Storage::url($jenisSurat->icon_path),
+                'icon_path' => $jenisSurat->icon_path,
+                'file_path' => $jenisSurat->file_path,
                 'deskripsi' => $jenisSurat->deskripsi,
             ];
         }

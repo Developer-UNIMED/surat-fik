@@ -4,7 +4,7 @@ use App\Http\Controllers\Web\Admin\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Web\Admin\JenisSurat\AdminJenisSuratController;
 use Illuminate\Support\Facades\Route;
 
-$MIDDLEWARE_ROLE = 'ADMIN_PENJASKES,ADMIN_SAMLEKOM';
+$MIDDLEWARE_ROLE = 'ADMIN_PKO,ADMIN_PJKR,ADMIN_IKOR';
 
 $middlewares = ['auth', "role:$MIDDLEWARE_ROLE"];
 if (session('auth_provider') === 'keycloak') {

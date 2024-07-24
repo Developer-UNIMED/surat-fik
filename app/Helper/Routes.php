@@ -11,8 +11,10 @@ class Routes
             return route('index');
         }
 
-        if ($user->hasRole('ADMIN')) {
+        if ($user->hasRoleIn(['ADMIN_PJKO', 'ADMIN_IKOR', 'ADMIN_PKO'])) {
             return route('admin.index');
+        } else if($user->hasRoleIn(['WD1', 'WD2', 'WD3', 'DEKAN'])){
+            return route('validator.index');
         } else {
             return route('user.index');
         }

@@ -31,16 +31,17 @@
     <link rel="stylesheet" href="{{ asset('assets/css/lib/slick.css') }} ">
     <!-- main css -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }} ">
+
 </head>
 <body>
-@include('template.user.sidebar')
+@include('template.validator.sidebar')
 
 <main class="dashboard-main">
-    @include('template.user.header')
+    @include('template.validator.header')
 
     @yield('content')
 
-    @include('template.user.footer')
+    @include('template.validator.footer')
 </main>
 
 <!-- jQuery library js -->
@@ -66,8 +67,11 @@
 <script src="{{ asset('assets/js/app.js') }}"></script>
 
 <script src="{{ asset('assets/js/homeOneChart.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </body>
 
 </html>
+
 @yield('js')

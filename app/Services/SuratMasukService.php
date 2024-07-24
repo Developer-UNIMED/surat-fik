@@ -33,11 +33,11 @@ class SuratMasukService
         return $this->suratMasukRepository->findAll(where: ['created_by' => $userId])->toArray();
     }
 
-    public function create(AkademikUser $akademik, array $data)
+    public function create(string $jurusan, array $data)
     {
-        return DB::transaction(function () use ($akademik, $data) {
+        return DB::transaction(function () use ($jurusan, $data) {
             $jenisSuratId = $data['jenis_surat_id'];
-            $adminJurusanRoleId = $this->getAdminRoleByJurusan($akademik->jurusan);
+            $adminJurusanRoleId = $this->getAdminRoleByJurusan($jurusan);
 
             $isJenisSuratExists = $this->jenisSuratRepository->exists($jenisSuratId);
             if (!$isJenisSuratExists) {
@@ -49,7 +49,7 @@ class SuratMasukService
             $isAdminRoleExists = $this->roleRepository->exists($adminJurusanRoleId);
             if (!$isAdminRoleExists) {
                 throw ValidationException::withMessages([
-                    'jurusan' => "Role admin untuk jurusan $akademik->jurusan tidak ditemukan"
+                    'jurusan' => "Role admin untuk jurusan $jurusan tidak ditemukan"
                 ]);
             }
 
@@ -58,7 +58,7 @@ class SuratMasukService
                 'file_path' => $data['file_path'],
                 'penerima_role_id' => $adminJurusanRoleId,
                 'status' => 'PENDING',
-            ]);
+            ])->toArray();
         });
     }
 

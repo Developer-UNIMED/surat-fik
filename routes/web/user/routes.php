@@ -21,6 +21,7 @@ Route::prefix('user')->middleware($middlewares)->group(function () {
 
     Route::prefix('/surat-baru')->controller(UserSuratBaruController::class)->group(function () {
         Route::get('/', 'index')->name('user.surat-baru.index');
+        Route::post('/', 'store')->name('user.surat-baru.store');
     });
 
     Route::prefix('/riwayat-surat')->controller(UserRiwayatSuratController::class)->group(function () {
