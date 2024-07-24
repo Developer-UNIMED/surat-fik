@@ -4,16 +4,24 @@ namespace App\Http\Controllers\Web\Validator\SuratMasuk;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Validator\ValidatorValidasiRequest;
+use App\Services\ValidasiSuratService;
 
 class ValidatorSuratMasukController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct(private readonly ValidasiSuratService $service)
+    {
+    }
+
     public function index()
     {
         $page = "Surat Masuk";
-        return view("validator.surat-masuk.index", compact("page"));
+        $data = $this->service->findAllSuratMasukByRolePenerima(auth()->user()->role);
+        return view("validator.surat-masuk.index", compact("page", "data"));
     }
 
     /**
@@ -27,9 +35,18 @@ class ValidatorSuratMasukController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ValidatorValidasiRequest $request)
     {
-        //
+        $form = $request->validated();
+        $suratMasukId = $form['surat_masuk_id'];
+
+        $forwardSurat = $this->service->forwardSurat($suratMasukId, "ARSIP");
+
+        return redirect()->route("validator.index")->with([
+            "code" => 201,
+            "status" => "OK",
+            "message" => "Surat Berhasil Diterima.",
+        ]);
     }
 
     /**

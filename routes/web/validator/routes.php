@@ -14,5 +14,6 @@ Route::prefix("validator")->middleware($middlewares)->group(function () {
 
     Route::prefix("surat-masuk")->controller(ValidatorSuratMasukController::class)->group(function () {
         Route::get("/", 'index')->name('validator.index');
+        Route::post("/", 'store')->name('validator.store');
     });
 });

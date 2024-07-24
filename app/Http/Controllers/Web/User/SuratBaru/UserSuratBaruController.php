@@ -44,12 +44,13 @@ class UserSuratBaruController extends Controller
         $form = $request->validated();
         $uploadPath = 'public/surat_masuk';
         $id = Str::ulid();
+        $jurusan = auth()->user()->akademik->jurusan;
 
         $filePath = Storage::putFileAs(
             path: $uploadPath, file: $form['file'],
             name: "$id-file." . $form['file']->extension());
 
-        $suratMasuk = $this->service->create('PENDIDIKAN KEPELATIHAN OLAHRAGA',array_merge([
+        $suratMasuk = $this->service->create($jurusan ,array_merge([
             'id' => $id,
             'file_path' => $filePath,
         ], $form));

@@ -71,7 +71,7 @@
 
 
 </body>
-
+@yield('modal')
 </html>
 
 @yield('js')
