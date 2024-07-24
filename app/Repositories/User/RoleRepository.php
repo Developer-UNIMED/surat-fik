@@ -20,7 +20,7 @@ class RoleRepository extends Repository
     {
         return QueryBuilder::builder($this->model)
             ->select($select)
-            ->whereNotIn('id', ['USER', 'ADMIN', 'DEV'])
+            ->whereNotIn('id', ['USER', 'ADMIN_PJKR', 'ADMIN_PKO', 'ADMIN_IKOR', 'DEV'])
             ->orderBy(['id' => 'ASC'])
             ->build()
             ->get();

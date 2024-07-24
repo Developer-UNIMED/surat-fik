@@ -71,6 +71,7 @@ return [
 
     'links' => [
         public_path('jenis_surat') => storage_path('app/public/jenis_surat'),
+        public_path('surat_masuk') => storage_path('app/public/surat_masuk'),
     ],
 
 ];

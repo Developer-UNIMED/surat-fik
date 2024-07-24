@@ -25,18 +25,28 @@ class AkademikRemoteRepository
 
             if (!$response->json() || $response->json('error_code')) {
                 Log::error(
-                    message: 'AKADEMIK_REMOTE_FIND_BY_NIM',
-                    context: ['message' => 'Error', 'nim' => $nim,
-                        'status' => $response->status(),
-                        'headers' => $response->headers(),
-                        'response' => $response->json()]);
+                    message: 'MAHASISWA_REMOTE_FIND_BY_NIM',
+                    context: ['message' => 'Response body is empty or has error_code',
+                        'params' => ['KdMahasiswa' => $nim],
+                        'response' => [
+                            'status' => $response->status(),
+                            'headers' => $response->headers(),
+                            'body' => $response->body()
+                        ]
+                    ]);
+
                 return null;
             }
 
             $data = $response->json()[0];
             Log::info(
-                message: 'AKADEMIK_REMOTE_FIND_BY_NIM',
-                context: ['message' => 'Success', 'nim' => $nim, 'response' => $data]);
+                message: 'MAHASISWA_REMOTE_FIND_BY_NIM',
+                context: [
+                    'message' => 'OK',
+                    'params' => ['KdMahasiswa' => $nim],
+                    'data' => $data
+                ]);
+
             return [
                 'nim' => $nim,
                 'nama' => $data['nama'],
@@ -48,11 +58,18 @@ class AkademikRemoteRepository
                 'mobile' => StringUtils::normalizePhoneNumber($data['NoTelp']),
                 'alamat' => $data['AlmtRumah'],
                 'tanggal_lahir' => $data['TglLahir'],
+                'password' => $data['Password'],
+                'password_salt' => $data['Salt'],
             ];
         } catch (ConnectionException $e) {
             Log::error(
-                message: 'AKADEMIK_REMOTE_FIND_BY_NIM',
-                context: ['message' => 'Error exception', 'nim' => $nim, 'exception' => (array)$e]);
+                message: 'MAHASISWA_REMOTE_FIND_BY_NIM',
+                context: [
+                    'message' => "Error: {$e->getMessage()}",
+                    'params' => ['KdMahasiswa' => $nim],
+                    'exception' => (array)$e,
+                ]);
+
             return null;
         }
     }

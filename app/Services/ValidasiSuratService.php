@@ -29,11 +29,12 @@ class ValidasiSuratService
                 $suratMasuk['id'],
                 $suratMasuk['jenis_surat_id'],
                 $suratMasuk['file_path'],
+                $suratMasuk['jenis_surat'],
                 'author' => [
-                    $suratMasuk['name'],
-                    $suratMasuk['angkatan'],
-                    $suratMasuk['prodi'],
-                    $suratMasuk['jurusan'],
+                    $suratMasuk['author_name'],
+                    $suratMasuk['author_angkatan'],
+                    $suratMasuk['author_prodi'],
+                    $suratMasuk['author_jurusan'],
                 ],
             ];
         }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\Admin\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Web\Admin\JenisSurat\AdminJenisSuratController;
+use App\Http\Controllers\Web\Admin\ValidasiSurat\AdminValidasiSuratController;
 use Illuminate\Support\Facades\Route;
 
 $MIDDLEWARE_ROLE = 'ADMIN_PKO,ADMIN_PJKR,ADMIN_IKOR';
@@ -19,5 +20,10 @@ Route::prefix("admin")->middleware($middlewares)->group(function () {
         Route::get("/create", 'create')->name('admin.jenis-surat.create');
         Route::post('/', 'store')->name('admin.jenis-surat.store');
         Route::post('/delete/{id}', 'delete')->name('admin.jenis-surat.delete');
+    });
+
+    Route::prefix("surat-masuk")->controller(AdminValidasiSuratController::class)->group(function () {
+        Route::get("/", 'index')->name('admin.surat-masuk.index');
+        Route::post('/', 'store')->name('admin.surat-masuk.store');
     });
 });

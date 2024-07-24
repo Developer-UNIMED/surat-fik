@@ -24,8 +24,14 @@
             </li>
             <li class="{{ ($url == "jenis-surat") ? "active-page" : "" }}">
                 <a href="{{ route('admin.jenis-surat.index') }}" class="{{ ($url == "jenis-surat") ? "active-page" : "" }}">
-                    <iconify-icon icon="ion:mail" class="menu-icon"></iconify-icon>
+                    <iconify-icon icon="ion:documents" class="menu-icon"></iconify-icon>
                     <span>Jenis Surat</span>
+                </a>
+            </li>
+            <li class="{{ ($url == "surat-masuk") ? "active-page" : "" }}">
+                <a href="{{ route('admin.surat-masuk.index') }}" class="{{ ($url == "surat-masuk") ? "active-page" : "" }}">
+                    <iconify-icon icon="ion:mail-unread" class="menu-icon"></iconify-icon>
+                    <span>Surat Masuk</span>
                 </a>
             </li>
         </ul>

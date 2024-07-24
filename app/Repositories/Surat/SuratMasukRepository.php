@@ -33,12 +33,14 @@ class SuratMasukRepository extends Repository
                 'surat_masuk.id',
                 'surat_masuk.jenis_surat_id',
                 'surat_masuk.file_path',
+                'jenis_surat.nama as jenis_surat',
                 'akademik_users.nama as author_name',
                 'akademik_users.angkatan as author_angkatan',
                 'akademik_users.program_studi as author_prodi',
                 'akademik_users.jurusan as author_jurusan',
             ])
             ->join('akademik_users', 'akademik_users.user_id', '=', 'surat_masuk.created_by')
+            ->join('jenis_surat', 'jenis_surat.id', '=', 'surat_masuk.jenis_surat_id')
             ->where($whereClause)
             ->orderBy(['surat_masuk.created_at' => 'ASC'])
             ->build()
