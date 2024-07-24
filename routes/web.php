@@ -13,5 +13,6 @@ if (in_array('database', config('auth.provider'))) {
 require __DIR__ . "/web/admin/routes.php";
 require __DIR__ . "/web/user/routes.php";
 require __DIR__ . "/web/validator/routes.php";
+require __DIR__ . "/web/arsip/routes.php";
 
 Route::view('/', 'welcome')->name('index');

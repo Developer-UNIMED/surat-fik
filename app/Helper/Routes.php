@@ -15,6 +15,8 @@ class Routes
             return route('admin.index');
         } else if($user->hasRoleIn(['WD1', 'WD2', 'WD3', 'DEKAN'])){
             return route('validator.index');
+        } else if($user->hasRoleIn(['ARSIP'])){
+            return route('arsip.index');
         } else {
             return route('user.index');
         }
