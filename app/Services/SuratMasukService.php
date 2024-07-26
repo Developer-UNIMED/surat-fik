@@ -30,7 +30,7 @@ class SuratMasukService
 
     public function findAllByUserId(string $userId): array
     {
-        return $this->suratMasukRepository->findAll(where: ['created_by' => $userId])->toArray();
+        return $this->suratMasukRepository->findAllByUserId($userId)->toArray();
     }
 
     public function create(string $jurusan, array $data)

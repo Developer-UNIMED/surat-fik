@@ -40,7 +40,7 @@ class ValidatorSuratMasukController extends Controller
         $form = $request->validated();
         $suratMasukId = $form['surat_masuk_id'];
 
-        $forwardSurat = $this->service->forwardSurat($suratMasukId, "ARSIP");
+        $forwardSurat = $this->service->archiveSurat($suratMasukId, "ARSIP");
 
         return redirect()->route("validator.index")->with([
             "code" => 201,

@@ -4,16 +4,25 @@ namespace App\Http\Controllers\Web\User\RiwayatSurat;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Services\SuratMasukService;
+use App\Services\ValidasiSuratService;
 
 class UserRiwayatSuratController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct(private SuratMasukService $service)
+    {
+    }
+
+
     public function index()
     {
         $page = "Riwayat Surat";
-        return view("user.riwayat-surat.index", compact("page"));
+        $data = $this->service->findAllByUserId(auth()->id());
+        return view("user.riwayat-surat.index", compact("page", "data"));
     }
 
     /**

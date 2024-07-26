@@ -47,12 +47,41 @@ class SuratMasukRepository extends Repository
             ->get();
     }
 
+    public function findAllByUserId(string $userId)
+    {
+        $whereClause = [
+            'surat_masuk.created_by' => $userId,
+        ];
+
+        return QueryBuilder::builder($this->model)
+            ->select([
+                'surat_masuk.penerima_role_id',
+                'surat_masuk.status',
+                'surat_masuk.created_at',
+                'jenis_surat.nama as jenis_surat',
+            ])
+            ->join('jenis_surat', 'jenis_surat.id', '=', 'surat_masuk.jenis_surat_id')
+            ->where($whereClause)
+            ->orderBy(['surat_masuk.created_at' => 'ASC'])
+            ->build()
+            ->get();
+    }
+
+
     public function forwardSurat(string $suratMasukId, string $roleId)
     {
         return QueryBuilder::builder($this->model)
             ->where(['id' => $suratMasukId])
             ->build()
             ->update(['penerima_role_id' => $roleId]);
+    }
+
+    public function archiveSurat(string $suratMasukId, string $roleId)
+    {
+        return QueryBuilder::builder($this->model)
+            ->where(['id' => $suratMasukId])
+            ->build()
+            ->update(['penerima_role_id' => $roleId, 'status' => 'ARCHIVED']);
     }
 
     public function rejectSurat(string $suratMasukId)

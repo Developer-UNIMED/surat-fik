@@ -68,6 +68,24 @@ class ValidasiSuratService
         return $this->suratMasukRepository->forwardSurat($suratMasukId, $roleId);
     }
 
+    public function archiveSurat(string $suratMasukId, string $roleId){
+        $isSuratMasukExists = $this->suratMasukRepository->exists($suratMasukId);
+        if (!$isSuratMasukExists) {
+            throw ValidationException::withMessages([
+                'surat_masuk_id' => "Surat dengan id $suratMasukId tidak ditemukan",
+            ]);
+        }
+
+        $isRoleExists = $this->roleRepository->exists($roleId);
+        if (!$isRoleExists) {
+            throw ValidationException::withMessages([
+                'role_id' => "Role dengan id $roleId tidak ditemukan",
+            ]);
+        }
+
+        return $this->suratMasukRepository->archiveSurat($suratMasukId, $roleId);
+    }
+
     public function rejectSurat(string $suratMasukId)
     {
         $isSuratMasukExists = $this->suratMasukRepository->exists($suratMasukId);
