@@ -47,6 +47,35 @@ class SuratMasukRepository extends Repository
             ->get();
     }
 
+    public function findAllArchivedByRolePenerima(Role $role)
+    {
+        $whereClause = [
+            'surat_masuk.status' => 'ARCHIVED',
+            'surat_masuk.penerima_role_id' => $role->id,
+        ];
+        if (str_starts_with($role->id, 'ADMIN')) {
+            $whereClause['akademik_users.jurusan'] = $role->name;
+        }
+
+        return QueryBuilder::builder($this->model)
+            ->select([
+                'surat_masuk.id',
+                'surat_masuk.jenis_surat_id',
+                'surat_masuk.file_path',
+                'jenis_surat.nama as jenis_surat',
+                'akademik_users.nama as author_name',
+                'akademik_users.angkatan as author_angkatan',
+                'akademik_users.program_studi as author_prodi',
+                'akademik_users.jurusan as author_jurusan',
+            ])
+            ->join('jenis_surat', 'jenis_surat.id', '=', 'surat_masuk.jenis_surat_id')
+            ->join('akademik_users', 'akademik_users.user_id', '=', 'surat_masuk.created_by')
+            ->where($whereClause)
+            ->orderBy(['surat_masuk.created_at' => 'ASC'])
+            ->build()
+            ->get();
+    }
+
     public function findAllByUserId(string $userId)
     {
         $whereClause = [

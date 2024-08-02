@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Arsip\DataSurat;
 
 use App\Http\Controllers\Controller;
 use App\Services\ValidasiSuratService;
+use App\Services\SuratMasukService;
 use Illuminate\Http\Request;
 
 class ArsipDataSuratController extends Controller
@@ -20,7 +21,7 @@ class ArsipDataSuratController extends Controller
     public function index()
     {
         $page = "Data Surat";
-        $data = $this->service->findAllSuratMasukByRolePenerima(auth()->user()->role);
+        $data = $this->service->findAllArchivedByRolePenerima(auth()->user()->role);
         return view("arsip.data-surat.index", compact("page", 'data'));
     }
 }

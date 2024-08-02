@@ -42,6 +42,29 @@ class ValidasiSuratService
         return $result;
     }
 
+    public function findAllArchivedByRolePenerima(Role $role): array
+    {
+        $listSuratMasuk = $this->suratMasukRepository->findAllArchivedByRolePenerima($role);
+
+        $result = [];
+        foreach ($listSuratMasuk as $suratMasuk) {
+            $result[] = [
+                $suratMasuk['id'],
+                $suratMasuk['jenis_surat_id'],
+                $suratMasuk['file_path'],
+                $suratMasuk['jenis_surat'],
+                'author' => [
+                    $suratMasuk['author_name'],
+                    $suratMasuk['author_angkatan'],
+                    $suratMasuk['author_prodi'],
+                    $suratMasuk['author_jurusan'],
+            ],
+            ];
+        }
+
+        return $result;
+    }
+
     public function forwardSurat(string $suratMasukId, string $roleId): int
     {
         $isSuratMasukExists = $this->suratMasukRepository->exists($suratMasukId);
